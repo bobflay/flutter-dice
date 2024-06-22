@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main() {
   runApp(const MyApp());
@@ -31,13 +33,13 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'DICEE'),
+      home: const DicePage(title: 'DICEE'),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class DicePage extends StatefulWidget {
+  const DicePage({super.key, required this.title});
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -51,25 +53,61 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<DicePage> createState() => _DicePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+
+
+class _DicePageState extends State<DicePage> {
+
+  int leftDiceNumber = 1;
+  int rightDiceNumber = 1;
+
+  void changeDiceFace()
+  {
+    setState(() {
+      leftDiceNumber = Random().nextInt(6)+1;
+      rightDiceNumber = Random().nextInt(6)+1;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
+      backgroundColor: Colors.red,
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
         // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
         // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        backgroundColor: Colors.red,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Center(child: Text(widget.title)),
       ),
-      body: Container()
+      body: Center(
+        child: Row(
+          children: [
+            Expanded(
+              child: TextButton(
+                  child: Image.asset('images/dice$leftDiceNumber.png'),
+                onPressed: (){
+                  changeDiceFace();
+                },
+              )
+            ),
+            Expanded(
+              child: TextButton(
+                child: Image.asset('images/dice$rightDiceNumber.png'),
+                onPressed: (){
+                  changeDiceFace();
+                },
+              ),
+            ),
+
+          ],
+        ),
+      )
       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
