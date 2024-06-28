@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 
 void main() {
   runApp(const MyApp());
@@ -56,10 +57,25 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  var leftButtonImage = 1;
+  var rightButtonImage = 1;
+
+  void RandomDice()
+  {
+    setState(() {
+      leftButtonImage = Random().nextInt(6)+1;
+      rightButtonImage = Random().nextInt(6)+1;
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
 
+    RandomDice();
+
     return Scaffold(
+      backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       appBar: AppBar(
         // TRY THIS: Try changing the color here to a specific color (to
         // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
@@ -67,9 +83,36 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Center(child: Text(widget.title)),
       ),
-      body: Container()
+      body: Center(
+        child: Row(
+          children: [
+            Expanded(
+                child:TextButton(
+                  onPressed: (){
+                    print("left button pressed");
+                    RandomDice();
+                  },
+                  child: Image.asset('images/dice$leftButtonImage.png'),
+                ),
+            ),
+            Expanded(
+              child:TextButton(
+                onPressed: (){
+                  print("right button pressed");
+                  setState(() {
+                  RandomDice();
+                  });
+
+                },
+                  child: Image.asset('images/dice$rightButtonImage.png')
+              ),
+            ),
+
+          ],
+        ),
+      )
       // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
